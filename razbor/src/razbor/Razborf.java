@@ -40,6 +40,7 @@ public class Razborf {
             //В цикле построчно считываем файл
             String s;
             int a =1;
+            System.out.println(s = in.readLine());
             System.out.println("var data = {");
             while ((s = in.readLine()) != null) {
                 try {
