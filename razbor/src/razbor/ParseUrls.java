@@ -5,13 +5,13 @@
  */
 package razbor;
 
+import static com.sun.org.apache.xalan.internal.lib.ExsltStrings.split;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -50,10 +50,12 @@ public class ParseUrls {
                     
                 
                 String tmp = "";
-                System.out.print(item..split(" ")[4]+ " "); tmp +=s.split(" ")[4]+ " ";
-                System.out.print(s.split(" ")[5]+ " "); tmp +=s.split(" ")[5]+ " ";
-                System.out.print(s.split(" ")[6]+ " "); tmp +=s.split(" ")[6]+ " ";
-                System.out.print(s.split(" ")[7]+ " "); tmp +=s.split(" ")[7]+ " ";
+                String s = null; 
+                
+                System.out.print(s.split(" ")[4]+ " ");  tmp +=s.split(" ")[4]+ " ";
+                System.out.print(s.split(" ")[5]+ " ");     tmp +=s.split(" ")[5]+ " ";
+                System.out.print(s.split(" ")[6]+ " ");     tmp +=s.split(" ")[6]+ " ";
+                System.out.print(s.split(" ")[7]+ " ");     tmp +=s.split(" ")[7]+ " ";
                 if(!s.split(" ")[8].matches("\\d\\D\\D\\D|\\d\\d\\D\\D\\D")){
                    System.out.print(s.split(" ")[8]+ " "); 
                    tmp +=s.split(" ")[8]+ " ";
