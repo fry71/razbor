@@ -19,40 +19,36 @@ import org.jsoup.select.Elements;
  *
  * @author fry
  */
-public class testCrawler {
+public class scout24 {
 
     private static PrintWriter out;
 
     public static void main(String[] args) throws IOException, InterruptedException, Exception {
         int i = 1;
-        out = new PrintWriter(new OutputStreamWriter(new FileOutputStream("test")), true);
-        for (int n = 1; n < 31; n++) {
-            Document doc = Jsoup.connect("http://www.funda.nl/europe/heel-europa/1-10-kamers/p" + n + "/")
-                    .data("query", "Java")
-                    .userAgent("Mozil")
-                    .cookie("auth", "token")
-                    .timeout(30000)
-                    .post();
-            out.println("Страница " + n);
-            out.println("http://www.funda.nl/europe/heel-europa/1-10-kamers/p" + n + "/");
-            
-            Elements items = doc.select("h3 > a[href~=/*huis*]");
+        out = new PrintWriter(new OutputStreamWriter(new FileOutputStream("scout24.txt")), true);
+        for (int n = 2; n < 3; n++) {
+            Document doc = Jsoup.connect("http://www.immobilienscout24.de/wohnen/berlin,berlin/mietwohnungen,seite-" + n + ".html")
+                    .userAgent("Mozilla")
+                    .get();
+            out.println("Страница " + (n - 1));
+            out.println("http://www.immobilienscout24.de/wohnen/berlin,berlin/mietwohnungen,seite-" + n + ".html");
+
+            Elements items = doc.select("h3 > a[href~=/*expose*]");
             for (Element item : items) {
 
-               
                 out.println("Объект " + i++);
-                out.println("http://www.funda.nl" + item.attr("href"));
+                out.println(item.attr("href").replaceAll("//",""));
                 //  out.println("  ");
-                String url = "http://www.funda.nl" + item.attr("href");
+                String url = item.attr("href").replaceAll("//","");
                 try {
                     // TimeUnit.MILLISECONDS.sleep(100);
                     getPicks(url);
                     //  TimeUnit.MILLISECONDS.sleep(100);
-                    getSpecs(url);
+                 //   getSpecs(url);
                     //  TimeUnit.MILLISECONDS.sleep(100);
-                    getDescription(url);
+                //   getDescription(url);
                     out.println(" ");
-                    TimeUnit.MILLISECONDS.sleep(100);
+              //      TimeUnit.SECONDS.sleep(1);
                 } catch (Exception e) {
                     System.out.println("this is a problem at program " + e.getLocalizedMessage());
                 }
@@ -64,24 +60,31 @@ public class testCrawler {
         //картинки    
         //      out.println("запрос " + "http://www.funda.nl"+url);
         out.println("Фотографии");
-        Document doc2 = Jsoup.connect(url + "fotos/")
-                .data("query", "Java")
-                .userAgent("Mozil")
-                .cookie("auth", "token")
-                .timeout(30000)
-                .post();
+       // System.out.println("http://"+url);
+        Document doc2 = Jsoup.connect("http://"+url)
+                .userAgent("Mozilla")
+                .get();
         //  out.println(doc2.title());
         // out.println(doc2.getElementsByClass("description").toString());
         try {
-
-            Elements items2 = doc2.select("img[src$=.jpg]");
-
-            for (Element item2 : items2) {
-
-                out.println(item2.attr("src").replaceAll("klein", "grotere"));
+            
+            Element items2 = doc2.select("script").get(5);
+            String[] tokens = items2.toString().split(",");
+           // System.out.println("test "+items2.toString());
+           
+            for (int h =0; h< tokens.length; h++){
+                String[] tmp = tokens[h].split("\":\"");
+                // System.out.println(tokens[h]);
+                if (tmp[0].equalsIgnoreCase("\"originalPictureUrl"))
+                    System.out.println(tmp[1].replaceAll("\"", ""));
             }
+//            for (Element item2 : items2) {
+//                System.out.println(item2.text());
+//                out.println(item2.attr("src").replaceAll("klein", "grotere"));
+//            }
+          
         } catch (IllegalArgumentException e) {
-            out.println("fail " + e.getLocalizedMessage());
+           // out.println("fail " + e.getLocalizedMessage());
         }
     }
 
