@@ -25,13 +25,14 @@ public class testCrawler {
 
     public static void main(String[] args) throws IOException, InterruptedException, Exception {
         int i = 1;
-        out = new PrintWriter(new OutputStreamWriter(new FileOutputStream("test")), true);
+        out = new PrintWriter(new OutputStreamWriter(new FileOutputStream("funda.txt")), true);
         for (int n = 1; n < 31; n++) {
             Document doc = Jsoup.connect("http://www.funda.nl/europe/heel-europa/1-10-kamers/p" + n + "/")
                     .data("query", "Java")
                     .userAgent("Mozil")
                     .cookie("auth", "token")
                     .timeout(30000)
+                    .ignoreHttpErrors(true)
                     .post();
             out.println("Страница " + n);
             out.println("http://www.funda.nl/europe/heel-europa/1-10-kamers/p" + n + "/");
@@ -45,6 +46,7 @@ public class testCrawler {
                 //  out.println("  ");
                 String url = "http://www.funda.nl" + item.attr("href");
                 try {
+                    getAddress(url);
                     // TimeUnit.MILLISECONDS.sleep(100);
                     getPicks(url);
                     //  TimeUnit.MILLISECONDS.sleep(100);
@@ -140,5 +142,34 @@ public class testCrawler {
         }
 
     }
+public static void getAddress(String url) throws Exception {
+        //картинки    
+        //     out.println("запрос " + "http://www.funda.nl/"+item.attr("href"));
+        out.println("Адресс");
+        Document doc2 = Jsoup.connect(url)
+               
+                .userAgent("Mozilla")
+                
+               .timeout(2*1000)
+                .get();
+           //   out.println(doc2.title());
 
+        // out.println(doc2.getElementsByClass("description").toString());
+        try {
+
+            Elements items2 = doc2.select("h1 > p");
+            out.println(url);
+            out.println("Адресс");
+            out.println(items2.get(0).text());
+            out.println("Цена");
+            out.println(items2.get(1).text());
+
+          //      out.println(item2.text());
+
+           
+        } catch (IllegalArgumentException e) {
+            out.println("fail " + e.getLocalizedMessage());
+        }
+
+    }
 }

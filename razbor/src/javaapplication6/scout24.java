@@ -26,14 +26,17 @@ public class scout24 {
     public static void main(String[] args) throws IOException, InterruptedException, Exception {
         int i = 1;
         out = new PrintWriter(new OutputStreamWriter(new FileOutputStream("scout24.txt")), true);
-        for (int n = 2; n < 3; n++) {
-            Document doc = Jsoup.connect("http://www.immobilienscout24.de/wohnen/berlin,berlin/mietwohnungen,seite-" + n + ".html")
-                    .userAgent("Mozilla")
+        for (int n = 2; n < 500; n++) {
+            Document doc = Jsoup.connect("http://www.immobilienscout24.de/wohnen/berlin,berlin/eigentumswohnungen,seite-" + n + ".html")
+                    .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.120 Safari/535.2")
+                 //   .timeout(30000)
+                    .ignoreHttpErrors(true)
                     .get();
             out.println("Страница " + (n - 1));
             out.println("http://www.immobilienscout24.de/wohnen/berlin,berlin/mietwohnungen,seite-" + n + ".html");
 
             Elements items = doc.select("h3 > a[href~=/*expose*]");
+                
             for (Element item : items) {
 
                 out.println("Объект " + i++);
@@ -41,14 +44,15 @@ public class scout24 {
                 //  out.println("  ");
                 String url = item.attr("href").replaceAll("//","");
                 try {
+                    getAddress(url);
                     // TimeUnit.MILLISECONDS.sleep(100);
                     getPicks(url);
                     //  TimeUnit.MILLISECONDS.sleep(100);
-                 //   getSpecs(url);
+                    getSpecs(url);
                     //  TimeUnit.MILLISECONDS.sleep(100);
-                //   getDescription(url);
+                   getDescription(url);
                     out.println(" ");
-              //      TimeUnit.SECONDS.sleep(1);
+                    TimeUnit.MILLISECONDS.sleep(100);
                 } catch (Exception e) {
                     System.out.println("this is a problem at program " + e.getLocalizedMessage());
                 }
@@ -63,6 +67,7 @@ public class scout24 {
        // System.out.println("http://"+url);
         Document doc2 = Jsoup.connect("http://"+url)
                 .userAgent("Mozilla")
+                .timeout(2*1000)
                 .get();
         //  out.println(doc2.title());
         // out.println(doc2.getElementsByClass("description").toString());
@@ -76,7 +81,7 @@ public class scout24 {
                 String[] tmp = tokens[h].split("\":\"");
                 // System.out.println(tokens[h]);
                 if (tmp[0].equalsIgnoreCase("\"originalPictureUrl"))
-                    System.out.println(tmp[1].replaceAll("\"", ""));
+                    out.println(tmp[1].replaceAll("\"", ""));
             }
 //            for (Element item2 : items2) {
 //                System.out.println(item2.text());
@@ -92,19 +97,19 @@ public class scout24 {
         //картинки    
         //     out.println("запрос " + "http://www.funda.nl/"+item.attr("href"));
         out.println("Спецификация");
-        Document doc2 = Jsoup.connect(url + "kenmerken/")
-                .data("query", "Java")
-                .userAgent("Mozil")
-                .cookie("auth", "token")
-                .timeout(30000)
-                .post();
+        Document doc2 = Jsoup.connect("http://"+url)
+               
+                .userAgent("Mozilla")
+                
+               .timeout(2*1000)
+                .get();
            //   out.println(doc2.title());
 
         // out.println(doc2.getElementsByClass("description").toString());
         try {
 
-            Elements items2 = doc2.select("table.specs-cats tr");
-            out.println(url + "kenmerken/");
+            Elements items2 = doc2.select("div.is24-ex-details");
+            out.println(url);
             for (Element item2 : items2) {
 
                 out.println(item2.text());
@@ -120,19 +125,17 @@ public class scout24 {
         //картинки    
         //     out.println("запрос " + "http://www.funda.nl/"+item.attr("href"));
         out.println("Описание");
-        Document doc2 = Jsoup.connect(url + "omschrijving/")
-                .data("query", "Java")
-                .userAgent("Mozil")
-                .cookie("auth", "token")
-                .timeout(30000)
-                .post();
+        Document doc2 = Jsoup.connect("http://"+url)
+                .userAgent("Mozilla")
+                .timeout(2*1000)
+                .get();
            //   out.println(doc2.title());
 
         // out.println(doc2.getElementsByClass("description").toString());
         try {
 
-            Elements items2 = doc2.select("div.description-full");
-            out.println(url + "omschrijving/");
+            Elements items2 = doc2.select("div.is24-text");
+          //  out.println("http://"+url);
             for (Element item2 : items2) {
 
                 out.println(item2.text());
@@ -143,5 +146,31 @@ public class scout24 {
         }
 
     }
+    public static void getAddress(String url) throws Exception {
+        //картинки    
+        //     out.println("запрос " + "http://www.funda.nl/"+item.attr("href"));
+        out.println("Адресс");
+        Document doc2 = Jsoup.connect("http://"+url)
+               
+                .userAgent("Mozilla")
+                
+               .timeout(2*1000)
+                .get();
+           //   out.println(doc2.title());
 
+        // out.println(doc2.getElementsByClass("description").toString());
+        try {
+
+            Elements items2 = doc2.select("div[data-qa$=is24-expose-address]");
+            out.println(url);
+            for (Element item2 : items2) {
+
+                out.println(item2.text());
+
+            }
+        } catch (IllegalArgumentException e) {
+            out.println("fail " + e.getLocalizedMessage());
+        }
+
+    }
 }
