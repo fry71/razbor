@@ -77,7 +77,7 @@ public class GeocodingSample {
       if("lat".equals(node.getNodeName())) lat = Float.parseFloat(node.getTextContent());
       if("lng".equals(node.getNodeName())) lng = Float.parseFloat(node.getTextContent());
     }
-   // System.out.println("lat/lng=" + lat + "," + lng);
+  // System.out.println("lat/lng=" + lat + "," + lng);
     
     // c) extract the coordinates of the first result
 //    resultNodeList = (NodeList) xpath.evaluate("/GeocodeResponse/result[1]/address_component[type/text() = 'administrative_area_level_1']/country[short_name/text() = 'US']/*", geocoderResultDocument, XPathConstants.NODESET);

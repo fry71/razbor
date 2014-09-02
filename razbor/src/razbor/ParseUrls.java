@@ -5,6 +5,10 @@
  */
 package razbor;
 
+import com.google.code.geocoder.Geocoder;
+import com.google.code.geocoder.GeocoderRequestBuilder;
+import com.google.code.geocoder.model.GeocodeResponse;
+import com.google.code.geocoder.model.GeocoderRequest;
 import static com.sun.org.apache.xalan.internal.lib.ExsltStrings.split;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -25,10 +29,16 @@ import static razbor.ParseUrls.England;
  */
 public class ParseUrls {
 
+    final static Geocoder geocoder = new Geocoder();
+
     public static void main(String[] args) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException, InterruptedException {
 
         try {
-            razbor.ParseUrls.Bulgary();
+           // System.out.println(razbor.GeocodingSample.getAddress("Москва, Дубининская улица, 20с1"));
+
+            GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress("Paris, France").setLanguage("en").getGeocoderRequest();
+            GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
+            System.out.println(geocoderResponse.getResults().isEmpty());
         } catch (Exception ex) {
             Logger.getLogger(ParseUrls.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -37,7 +47,7 @@ public class ParseUrls {
     public static void Bulgary() throws Exception {
 
         for (int i = 2; i <= 500; i++) {
-            Document doc = Jsoup.connect("http://www.cian.ru/cat.php?deal_type=2&obl_id=1&city[0]=1&room1=1&room2=1&room3=1&room4=1&room5=1&room6=1&p="+i)
+            Document doc = Jsoup.connect("http://www.cian.ru/cat.php?deal_type=2&obl_id=1&city[0]=1&room1=1&room2=1&room3=1&room4=1&room5=1&room6=1&p=" + i)
                     .data("query", "Java")
                     .userAgent("Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36")
                     .cookie("auth", "true")
@@ -47,23 +57,26 @@ public class ParseUrls {
 
             for (Element item : items) {
                 try {
-                    
-                
-                String tmp = "";
-                String s = null; 
-                
-                System.out.print(s.split(" ")[4]+ " ");  tmp +=s.split(" ")[4]+ " ";
-                System.out.print(s.split(" ")[5]+ " ");     tmp +=s.split(" ")[5]+ " ";
-                System.out.print(s.split(" ")[6]+ " ");     tmp +=s.split(" ")[6]+ " ";
-                System.out.print(s.split(" ")[7]+ " ");     tmp +=s.split(" ")[7]+ " ";
-                if(!s.split(" ")[8].matches("\\d\\D\\D\\D|\\d\\d\\D\\D\\D")){
-                   System.out.print(s.split(" ")[8]+ " "); 
-                   tmp +=s.split(" ")[8]+ " ";
-                }
+
+                    String tmp = "";
+                    String s = null;
+
+                    System.out.print(s.split(" ")[4] + " ");
+                    tmp += s.split(" ")[4] + " ";
+                    System.out.print(s.split(" ")[5] + " ");
+                    tmp += s.split(" ")[5] + " ";
+                    System.out.print(s.split(" ")[6] + " ");
+                    tmp += s.split(" ")[6] + " ";
+                    System.out.print(s.split(" ")[7] + " ");
+                    tmp += s.split(" ")[7] + " ";
+                    if (!s.split(" ")[8].matches("\\d\\D\\D\\D|\\d\\d\\D\\D\\D")) {
+                        System.out.print(s.split(" ")[8] + " ");
+                        tmp += s.split(" ")[8] + " ";
+                    }
                     System.out.print("; ");
                     System.out.print(GeocodingSample.getAddress(tmp));
-                System.out.println(""); 
-                TimeUnit.SECONDS.sleep(1);
+                    System.out.println("");
+                    TimeUnit.SECONDS.sleep(1);
                 } catch (java.lang.ArrayIndexOutOfBoundsException e) {
                 }
             }
