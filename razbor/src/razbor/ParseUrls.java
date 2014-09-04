@@ -34,11 +34,11 @@ public class ParseUrls {
     public static void main(String[] args) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException, InterruptedException {
 
         try {
-           // System.out.println(razbor.GeocodingSample.getAddress("Москва, Дубининская улица, 20с1"));
+            System.out.println(razbor.GeocodingSample.getAddress("Москва, Дубининская улица, 20с1"));
 
-            GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress("Paris, France").setLanguage("en").getGeocoderRequest();
-            GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
-            System.out.println(geocoderResponse.getResults().isEmpty());
+//            GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress("Paris, France").setLanguage("en").getGeocoderRequest();
+//            GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
+//            System.out.println(geocoderResponse.getResults().isEmpty());
         } catch (Exception ex) {
             Logger.getLogger(ParseUrls.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -43,9 +43,9 @@ public class cianru {
 
     public static void main(String[] args
     ) throws IOException, InterruptedException, Exception {
-        int i = 1;
+        int i = 11421;
         out = new PrintWriter(new OutputStreamWriter(new FileOutputStream("sell_cian.txt")), true);
-        for (int n = 2; n < 1000; n++) {
+        for (int n = 440; n < 1000; n++) {
             Document doc = Jsoup.connect("http://www.cian.ru/cat.php?deal_type=2&obl_id=1&city[0]=1&room1=1&room2=1&room3=1&room4=1&room5=1&room6=1&p=" + n)
                     .userAgent("Mozilla")
                     .get();
