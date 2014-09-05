@@ -78,6 +78,7 @@ public class mysql {
                 
                 String addr = razbor.GeocodingSample.getAddress(rs.getString("address"));
                 //System.out.println(addr);
+                
                 System.out.println("update tr set lat = "+addr.split(";")[0].trim()+", lon = "+addr.split(";")[1].trim()+" where id = "+rs.getInt("id")+";");
                 int test = stmt2.executeUpdate("update tr set lat = \""+addr.split(";")[0].trim()+"\", lon = \""+addr.split(";")[1].trim()+"\" where id = "+rs.getInt("id")+";");
                 System.out.println("результат запроса :"+ test);
