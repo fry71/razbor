@@ -66,14 +66,14 @@ public class mysql {
      *
      * @param data
      */
-    public static void doGoogleMaps(LinkedList<data> data) throws SQLException, IOException, XPathExpressionException, ParserConfigurationException, SAXException, InterruptedException {
+    public static void doGoogleMaps(LinkedList<data> data, int id) throws SQLException, IOException, XPathExpressionException, ParserConfigurationException, SAXException, InterruptedException {
       
             getConnection();
             Statement stmt = null;
             stmt = conn.createStatement();
             Statement stmt2;
             stmt2 = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select id, address from tr where id > 731 ");
+            ResultSet rs = stmt.executeQuery("select id, address from tr where id >  " + id);
             while (rs.next()) {
                 
                 String addr = razbor.GeocodingSample.getAddress(rs.getString("address"));

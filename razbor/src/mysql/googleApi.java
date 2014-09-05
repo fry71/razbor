@@ -21,7 +21,7 @@ public class googleApi {
     private static LinkedList data;
     public static void main(String[] args) throws SQLException, IOException, XPathExpressionException, ParserConfigurationException, SAXException, InterruptedException {
         data = new LinkedList<> ();
-        mysql.doGoogleMaps(data);
+        mysql.doGoogleMaps(data, 3244);
        
     }
     
