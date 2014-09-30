@@ -28,7 +28,7 @@ public class GeocodingSample {
   private static final String GEOCODER_REQUEST_PREFIX_FOR_XML = "http://maps.google.com/maps/api/geocode/xml";
 
   public static final String getAddress (String address) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
-
+      
     // query address
    // String address = "Москва Михалковская улица д.48";
 
@@ -88,7 +88,7 @@ public class GeocodingSample {
 //      if("lat".equals(node.getNodeName())) lat = Float.parseFloat(node.getTextContent());
 //      if("lng".equals(node.getNodeName())) lng = Float.parseFloat(node.getTextContent());
 //    }
-//    System.out.println("lat/lng=" + lat + "," + lng);
+      System.out.println("lat/lng=" + lat + "," + lng);
       return lat + ";" + lng;
 
   }

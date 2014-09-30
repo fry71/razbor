@@ -42,11 +42,11 @@ public class cianru {
     private static String phone;
 
     public static void main(String[] args
-    ) throws IOException, InterruptedException, Exception {
-        int i = 11421;
-        out = new PrintWriter(new OutputStreamWriter(new FileOutputStream("sell_cian.txt")), true);
-        for (int n = 440; n < 1000; n++) {
-            Document doc = Jsoup.connect("http://www.cian.ru/cat.php?deal_type=2&obl_id=1&city[0]=1&room1=1&room2=1&room3=1&room4=1&room5=1&room6=1&p=" + n)
+    ) throws IOException, InterruptedException, java.net.SocketTimeoutException {
+        int i = 56106;
+        out = new PrintWriter(new OutputStreamWriter(new FileOutputStream("sell_cian_________________.txt")), true);
+        for (int n = 1; n < 1000; n++) {
+            Document doc = Jsoup.connect("http://www.cian.ru/cat.php?deal_type=2&obl_id=6&room1=1&room2=1&room3=1&room4=1&room5=1&room6=1&p=" + n)
                     .userAgent("Mozilla")
                     .get();
             // out.println("Страница " + (n - 1));
@@ -71,7 +71,7 @@ public class cianru {
                     out.println(" ");
                     //      TimeUnit.SECONDS.sleep(1);
                 } catch (Exception e) {
-                    System.out.println("this is a problem at program " + e.getLocalizedMessage());
+                    System.out.println("this is a problem at program " + e);
                 }
             }
         }
@@ -158,7 +158,7 @@ public class cianru {
             String sqlObject;
             String tmp = razbor.GeocodingSample.getAddress(adress);
            // System.out.println(razbor.GeocodingSample.getAddress("Москва, Дубининская улица, 20с1"));
-            sqlObject = "insert into tr values ("+(i-1)+", \""+adress+"\", \""+descr+"\", \""+specs+"\" ,\""+phone+"\", \""+price+"\", \""+"Продажа "+type+"\",  \""+tmp.split(",")[0]+"\", \""+tmp.split(",")[1]+"\", \" "+href+"\");";
+            sqlObject = "insert into tr values ("+(i-1)+", \""+adress+"\", \""+descr+"\", \""+specs+"\" ,\""+phone+"\", \""+price+"\", \""+"Продажа o.O "+type+"\",  \""+tmp.split(";")[0]+"\", \""+tmp.split(";")[1]+"\", \" "+href+"\", \"ru\");";
             
             
 //           mysql.mysql.doInsert(sqlObject);

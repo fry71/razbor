@@ -32,10 +32,10 @@ public class testCrawler {
     private static String descr="";
     private static String phone="";
     public static void main(String[] args) throws IOException, InterruptedException, Exception {
-        int i = 1;
-        out = new PrintWriter(new OutputStreamWriter(new FileOutputStream("funda.txt")), true);
-        for (int n = 1; n < 31; n++) {
-            Document doc = Jsoup.connect("http://www.funda.nl/europe/heel-europa/1-10-kamers/p" + n + "/")
+        int i = 15214;
+        out = new PrintWriter(new OutputStreamWriter(new FileOutputStream("funda.sql")), true);
+        for (int n = 1; n <= 31; n++) {
+            Document doc = Jsoup.connect("http://www.funda.nl/europe/heel-europa/koop/1-10-kamers/p" + n + "/")
                     .data("query", "Java")
                     .userAgent("Mozil")
                     .cookie("auth", "token")
@@ -65,10 +65,11 @@ i++;
                     
                       String sqlObject;
             String tmp = razbor.GeocodingSample.getAddress(adress);
-            sqlObject = "insert into tr values ("+(i-1)+", \""+adress+"\", \""+descr+"\", \""+specs+"\" ,\""+phone+"\", \""+price+"\", \""+"Продажа "+type+"\",  \""+tmp.split(",")[0]+"\", \""+tmp.split(",")[1]+"\", \" "+href+"\");";
+                    
+            sqlObject = "insert into arc_tr values ("+(i-1)+", \""+adress+"\", \""+descr+"\", \""+specs+"\" ,\""+phone+"\", \""+price+"\", \""+"Продажа funda.nl "+type+"\",  \""+tmp.split(";")[0]+"\", \""+tmp.split(";")[1]+"\", \" "+href+"\",\"nl\");";
             out.println(sqlObject);
             for (int j = 0; j < foto.size(); j++) {
-                sqlObject =" insert into image values (null, \""+foto.get(j)+"\", null, null, null,"+(i-1)+");";
+                sqlObject =" insert into arc_tr_image values (null, \""+foto.get(j)+"\", null, null, null,"+(i-1)+");";
                // mysql.mysql.doInsert(sqlObject);
                 out.println(sqlObject);
             }

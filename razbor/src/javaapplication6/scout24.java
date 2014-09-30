@@ -33,10 +33,16 @@ public class scout24 {
     private static String phone = "";
 
     public static void main(String[] args) throws IOException {
-        int i = 11423;
-        out = new PrintWriter(new OutputStreamWriter(new FileOutputStream("scout24.txt")), true);
-        for (int n = 2; n < 500; n++) {
-            Document doc = Jsoup.connect("http://www.immobilienscout24.de/wohnen/berlin,berlin/eigentumswohnungen,seite-" + n + ".html")
+       
+        String id = args[0];
+        String exturl = args[1];
+        String start = args[2];
+        String stop = args[3];
+        String city = args[4];  
+        int i = 19537;
+        out = new PrintWriter(new OutputStreamWriter(new FileOutputStream("scout24_"+city+".sql")), true);
+        for (int n = 1; n < 500; n++) {
+            Document doc = Jsoup.connect("http://www.immobilienscout24.de/wohnen/bayern/eigentumswohnungen,seite-" + n + ".html")
                     .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.120 Safari/535.2")
                     //   .timeout(30000)
                     .ignoreHttpErrors(true)
@@ -74,10 +80,10 @@ public class scout24 {
 
                     String sqlObject;
                   //  String tmp = razbor.GeocodingSample.getAddress(adress.split("Karte")[0]);
-                    sqlObject = "insert into tr values (" + (i - 1) + ", \"" + adress + "\", \"" + descr + "\", \"" + specs + "\" ,\"" + phone + "\", \"" + price + "\", \"" + "Продажа квартира берлин" + type + "\",  \"NaN\", \"NaN\", \" " + href + "\");";
+                    sqlObject = "insert into tr values (" + (i - 1) + ", \"" + adress + "\", \"" + descr + "\", \"" + specs + "\" ,\"" + phone + "\", \"" + price + "\", \"" + "Продажа квартира бавария" + type + "\",  \"NaN\", \"NaN\", \" " + href + "\");";
                     out.println(sqlObject);
                     for (int j = 0; j < foto.size(); j++) {
-                        sqlObject = " insert into image values (null, \"" + foto.get(j) + "\", null, null, null," + (i - 1) + ");";
+                        sqlObject = " insert into tr_image values (null, \"" + foto.get(j) + "\", null, null, null," + (i - 1) + ");";
                         // mysql.mysql.doInsert(sqlObject);
                         out.println(sqlObject);
                     }

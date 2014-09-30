@@ -22,7 +22,7 @@ public class googleApi {
 
     public static void main(String[] args) throws SQLException, IOException, XPathExpressionException, ParserConfigurationException, SAXException, InterruptedException {
         data = new LinkedList<>();
-        mysql.doGoogleMaps(data, 11743);
+        mysql.doGoogleMaps();
 
     }
 
