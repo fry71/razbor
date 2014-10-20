@@ -43,16 +43,17 @@ public class cianru {
 
     public static void main(String[] args
     ) throws IOException, InterruptedException, java.net.SocketTimeoutException {
-        int i = 56106;
-        out = new PrintWriter(new OutputStreamWriter(new FileOutputStream("sell_cian_________________.txt")), true);
-        for (int n = 1; n < 1000; n++) {
-            Document doc = Jsoup.connect("http://www.cian.ru/cat.php?deal_type=2&obl_id=6&room1=1&room2=1&room3=1&room4=1&room5=1&room6=1&p=" + n)
+            int i = 24050;
+        out = new PrintWriter(new OutputStreamWriter(new FileOutputStream("sell_cian_msc_big.sql")), true);
+        for (int n = 1; n < 13; n++) {
+            Document doc = Jsoup.connect("http://www.cian.ru/cat.php?suburbian=yes&deal_type=2&obl_id=-1&city%5B0%5D=1&object_type%5B1%5D=1&object_type%5B2%5D=4&p=" + n)
                     .userAgent("Mozilla")
                     .get();
             // out.println("Страница " + (n - 1));
             // out.println("http://www.immobilienscout24.de/wohnen/berlin,berlin/mietwohnungen,seite-" + n + ".html");
             
-            Elements items = doc.select("a[href~=/*sale/flat/\\d*]");
+            Elements items = doc.select("a[href~=/*sale/suburban/\\d*]");
+            
             for (Element item : items) {
             i++;
                // out.println("Объект " + i++);
@@ -158,7 +159,7 @@ public class cianru {
             String sqlObject;
             String tmp = razbor.GeocodingSample.getAddress(adress);
            // System.out.println(razbor.GeocodingSample.getAddress("Москва, Дубининская улица, 20с1"));
-            sqlObject = "insert into tr values ("+(i-1)+", \""+adress+"\", \""+descr+"\", \""+specs+"\" ,\""+phone+"\", \""+price+"\", \""+"Продажа o.O "+type+"\",  \""+tmp.split(";")[0]+"\", \""+tmp.split(";")[1]+"\", \" "+href+"\", \"ru\");";
+            sqlObject = "insert into arc_tr2 values ("+(i-1)+", \""+adress.replaceAll("\"", "")+"\", \""+descr+"\", \""+specs.toString().replaceAll(", ", "; ")+"\" ,\""+phone+"\", \""+price+"\", \""+"Продажа Москва дом"+type+"\",  \""+tmp.split(";")[0]+"\", \""+tmp.split(";")[1]+"\", \" "+href+"\", \"ru\", \"RUB\");";
             
             
 //           mysql.mysql.doInsert(sqlObject);
@@ -168,7 +169,7 @@ public class cianru {
             out.println(sqlObject);
           // sqlObject="";
             for (int j = 0; j < foto.size(); j++) {
-                sqlObject =" insert into image values (null, \""+foto.get(j)+"\", null, null, null,"+(i-1)+");";
+                sqlObject =" insert into arc_tr_image values (null, \""+foto.get(j)+"\", null, null, null,"+(i-1)+");";
                // mysql.mysql.doInsert(sqlObject);
                 out.println(sqlObject);
             }

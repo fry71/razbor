@@ -88,7 +88,7 @@ public class GeocodingSample {
 //      if("lat".equals(node.getNodeName())) lat = Float.parseFloat(node.getTextContent());
 //      if("lng".equals(node.getNodeName())) lng = Float.parseFloat(node.getTextContent());
 //    }
-      System.out.println("lat/lng=" + lat + "," + lng);
+      //System.out.println("lat/lng=" + lat + "," + lng);
       return lat + ";" + lng;
 
   }

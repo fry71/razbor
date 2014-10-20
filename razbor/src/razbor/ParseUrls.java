@@ -34,7 +34,7 @@ public class ParseUrls {
     public static void main(String[] args) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException, InterruptedException {
 
         try {
-            System.out.println(razbor.GeocodingSample.getAddress("Москва, Дубининская улица, 20с1"));
+            System.out.println(razbor.GeocodingSample.getAddress("Nyhavn 12A, 2."));
 
 //            GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress("Paris, France").setLanguage("en").getGeocoderRequest();
 //            GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
